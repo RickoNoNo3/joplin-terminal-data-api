@@ -5,7 +5,7 @@ sed -i 's/__TOKEN__/'"$TOKEN"'/g' /etc/nginx/nginx.conf
 
 nginx -g 'daemon on;'
 
-if [ -r "/root/joplin-config.json" ]; then
-  joplin config --import </root/joplin-config.json
+if [ -r "/root/joplin/joplin-config.json" ]; then
+  joplin config --import </root/joplin/joplin-config.json
 fi
 joplin server start

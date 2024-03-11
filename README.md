@@ -14,16 +14,18 @@ The Joplin application offers an interactive application based on CLI, a command
 docker pull rickonono3/joplin-terminal-data-api:latest
 ```
 
-There are only one port(for synchronizing to OneDrive maybe two), and a config file necessary to mapping:
-| Port/Volumn              | Necessary | Description                 |
-| ------------------------ | --------- | --------------------------- |
-| 9967                     | ✗         | OneDrive OAuth Service      |
-| 41184                    | ✗         | Joplin Data API             |
-| 41185                    | ✓         | Joplin Data API (AutoToken) |
-| /root/joplin-config.json | ✓         | Joplin Config File          |
+There are only one port(for synchronizing to OneDrive maybe two), and a config file folder necessary to mapping:
+| Port/Volumn  | Necessary | Description                          |
+| ------------ | --------- | ------------------------------------ |
+| 9967         | ✗         | OneDrive OAuth Service               |
+| 41184        | ✗         | Joplin Data API                      |
+| 41185        | ✓         | Joplin Data API (AutoToken)          |
+| /root/joplin | ✓         | The folder stored Joplin config file |
 
 
 ## Configuration
+Mount a host folder to container's `/root/joplin`, and create a config file named `joplin-config.json` inside.
+
 By executing command `joplin help config` in a container terminal，we can find all the configuration keys of Joplin. And，we can get an example of the config file:
 
 ```json
@@ -51,7 +53,7 @@ By executing command `joplin help config` in a container terminal，we can find 
 }
 ```
 
-Since the container re-imports the configuration with `joplin config --import < /root/joplin-config.json` every time it restarts, using the command `joplin config <key> <value>` in the container terminal will become ineffective upon the next restart. Write all configurations need to be persistently saved into `joplin-config.json`.
+Since the container re-imports the configuration with `joplin config --import < /root/joplin/joplin-config.json` every time it restarts, using the command `joplin config <key> <value>` in the container terminal will become ineffective upon the next restart. Write all configurations need to be persistently saved into `joplin-config.json`.
 
 ## Data API
 For API Request/Response formats, see [Joplin Data API Document](https://joplinapp.org/help/api/references/rest_api/#using-the-api)。
