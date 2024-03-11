@@ -88,13 +88,13 @@ Generally, using `joplin e2ee enable -p <password>` can complete the automatic e
 
 
 ## Synchronization
-For sync sources other than OneDrive, configure directly as follows:
-1. Configure the sync source in `joplin-config.json` according to the introduction in stdout of `joplin help config`
+For sync targets other than OneDrive, configure directly as follows:
+1. Configure the sync target in `joplin-config.json` according to the introduction in stdout of `joplin help config`
 2. Execute `joplin sync` inside the container, and follow the prompts (if exist) to complete the configuration.
 
 Below, we mainly discuss the synchronization for OneDrive.
 
-Since the OneDrive sync source requires login from Microsoft, and the Microsoft login is only available in a web GUI, Joplin uses a temporary external server for login authentication, which is on port 9967. However, using a GUI web browser in a CLI environment is too hard. After reading the Joplin source code, We offer the following solutions:
+Since the OneDrive sync target requires login from Microsoft, and the Microsoft login is only available in a web GUI, Joplin uses a temporary external server for login authentication, which is on port 9967. However, using a GUI web browser in a CLI environment is too hard. After reading the Joplin target code, We offer the following solutions:
 
 Solution 1: The host machine has a GUI, and the 9967 port can be mapped
 1. Map port 9967 to 9967 (it must be exactly 9967, and the port is only used once during the login to OneDrive. If you do not want to map to this port, please use Solution 2)
