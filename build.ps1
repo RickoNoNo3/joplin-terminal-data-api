@@ -1,2 +1,2 @@
 docker builder prune --all
-docker build -t rickonono3/joplin_terminal_data_api .
+docker build -t rickonono3/joplin-terminal-data-api .

@@ -11,7 +11,7 @@ The Joplin application offers an interactive application based on CLI, a command
 
 ## Deployment
 ```
-docker pull rickonono3/joplin_terminal_data_api:latest
+docker pull rickonono3/joplin-terminal-data-api:latest
 ```
 
 There are only one port(for synchronizing to OneDrive maybe two), and a config file folder necessary to mapping:
