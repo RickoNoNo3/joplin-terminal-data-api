@@ -14,7 +14,7 @@ The Joplin application offers an interactive application based on CLI, a command
 docker pull rickonono3/joplin-terminal-data-api:latest
 ```
 
-There are only one port(for synchronizing to OneDrive maybe two), and a config file folder necessary to mapping:
+There are only one port(for synchronizing to OneDrive maybe two), and a config file folder necessary you need to map:
 | Port/Volumn  | Necessary | Description                          |
 | ------------ | --------- | ------------------------------------ |
 | 9967         | ✗         | OneDrive OAuth Service               |
