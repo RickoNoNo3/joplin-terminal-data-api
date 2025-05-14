@@ -9,7 +9,7 @@ if [ "$JOPLIN_VERSION" = "dynamic" ]; then
     echo "Latest Joplin version: $latest"
     echo "Installing joplin@$latest..."
     NPM_CONFIG_PREFIX=/app/joplin npm install --omit=dev -g joplin@$latest
-    ln -s /app/joplin/bin/joplin /usr/bin/joplin
+    ln -sf /app/joplin/bin/joplin /usr/bin/joplin
   else
     echo "Joplin is already up to date."
   fi
