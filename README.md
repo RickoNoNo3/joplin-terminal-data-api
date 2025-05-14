@@ -10,9 +10,19 @@ The Joplin application offers an interactive application based on CLI, a command
 
 
 ## Deployment
+For dynamically running the latest version of Joplin, use the following command:
+
 ```
 docker pull rickonono3/joplin-terminal-data-api:latest
 ```
+
+Everytime the container is started, the latest version of Joplin will be downloaded and installed if necessary. So this is suitable for online use. If you want to run a specific version of Joplin to keep static or for offline use, run the following command:
+
+```
+docker pull rickonono3/joplin-terminal-data-api:<version>
+```
+
+(note that not every static version is released, see the [Docker Hub](https://hub.docker.com/r/rickonono3/joplin-terminal-data-api) for details)
 
 There are only one port(for synchronizing to OneDrive maybe two), and a config file folder necessary you need to map:
 | Port/Volumn  | Necessary | Description                          |
