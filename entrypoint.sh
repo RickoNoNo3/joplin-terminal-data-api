@@ -2,11 +2,11 @@
 echo "Running Joplin version: $JOPLIN_VERSION"
 if [ "$JOPLIN_VERSION" = "dynamic" ]; then
   echo "Checking for Joplin updates..."
-  current=$(npm show joplin version 2>/dev/null)
+  current=$(npm list -g joplin --depth=0 --parseable 2>/dev/null)
   latest=$(npm show joplin@latest version 2>/dev/null)
+  echo "Current Joplin version: $current"
+  echo "Latest Joplin version: $latest"
   if [ "$current" != "$latest" ]; then
-    echo "Current Joplin version: $current"
-    echo "Latest Joplin version: $latest"
     echo "Installing joplin@$latest..."
     NPM_CONFIG_PREFIX=/app/joplin npm install --omit=dev -g joplin@$latest
     ln -sf /app/joplin/bin/joplin /usr/bin/joplin
