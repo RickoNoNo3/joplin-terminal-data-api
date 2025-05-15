@@ -120,5 +120,5 @@ Solution 2: The host machine does not have a GUI, or the 9967 port is not availa
 4. After completing the last step in the browser, you will be redirected to `http://localhost:9967/?code=<onedrive_auth_code>`(^1). At this point, it will be 404 not found. Let's attach a new terminal in the container (now there are two terminals in the container, one is the newly added `sh`, the other is `joplin sync` waiting for OneDrive login), copy the whole address(^1) from the browser, use `wget` in the container to access it once.
 5. Check the terminal running `joplin sync`, it should show that login was successful
 
-# Testing
+## Testing
 After configuration and synchronization, visit `content_view.html` to watch the tree structure of the notes.
