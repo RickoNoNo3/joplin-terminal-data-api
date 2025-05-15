@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Joplin Notes Tree Structure Table</title>
+    <style>
+        table { border-collapse: collapse; width: 90%; margin: 20px auto; }
+        th, td { border: 1px solid #999; padding: 6px 12px; }
+        th { background: #eee; }
+        .time-col { width: 180px; }
+    </style>
+</head>
+<body>
+    <h2 align="center">Joplin Notes Tree Structure Table</h2>
+    <div align="center">
+        <label>Server Address</label>
+        <input type="text" id="server_url" placeholder="Server Address" value="http://127.0.0.1:41185">
+        <button onclick="main()">Refresh</button>
+    </div>
+    <table id="treeTable">
+        <thead>
+            <tr>
+                <th class="id-col">ID</th>
+                <th class="title-col">Title</th>
+                <th class="time-col">Updated Time</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        // Get all folders (originally a flat list with parent_id field, reorganized into tree structure)
+        async function getFoldersTree() {
+            const url = `${server_url}/folders?fields=id,title,parent_id,updated_time`;
+            const resp = await fetch(url);
+            const folders = (await resp.json()).items || [];
+            return recursiveMapFolders(folders);
+        }
+
+        // Convert flat folder list to tree structure
+        function recursiveMapFolders(folders) {
+            // Create mapping from ID to folder
+            const folderMap = {};
+            folders.forEach(folder => {
+                folder.children = [];
+                folderMap[folder.id] = folder;
+            });
+            
+            // Build tree structure
+            const rootFolders = [];
+            folders.forEach(folder => {
+                if (!folder.parent_id) {
+                    // Folders without parent are root folders
+                    rootFolders.push(folder);
+                } else if (folderMap[folder.parent_id]) {
+                    // Add current folder to parent folder's children
+                    folderMap[folder.parent_id].children.push(folder);
+                } else {
+                    // Parent folder doesn't exist, treat as root folder
+                    rootFolders.push(folder);
+                }
+            });
+            
+            // Recursively sort all folder children by title alphabetically
+            function sortFolderChildren(folderList) {
+                if (!folderList || folderList.length === 0) return;
+                
+                // Sort current level folders by title
+                folderList.sort((a, b) => a.title.localeCompare(b.title, 'en'));
+                
+                // Recursively sort subfolders
+                for (const folder of folderList) {
+                    if (folder.children && folder.children.length > 0) {
+                        sortFolderChildren(folder.children);
+                    }
+                }
+            }
+            
+            // Sort root folder list
+            sortFolderChildren(rootFolders);
+            
+            return rootFolders;
+        }
+
+        // Get all notes for a specific folder
+        async function getFolderNotes(folderId) {
+            const url = `${server_url}/folders/${folderId}/notes?fields=id,title,updated_time`;
+            const resp = await fetch(url);
+            return (await resp.json()).items || [];
+        }
+
+        // Recursively render tree structure
+        async function renderFolderTree(tbody, folders, depth) {
+            for (let folder of folders) {
+                addRow(tbody, folder.id, folder.title, folder.updated_time, depth, "folder");
+                // Render notes in this folder
+                const notes = await getFolderNotes(folder.id);
+                for (let note of notes) {
+                    addRow(tbody, note.id, note.title, note.updated_time, depth + 1, "note");
+                }
+                // If there are subfolders, recursively render them
+                if (folder.children && folder.children.length > 0) {
+                    await renderFolderTree(tbody, folder.children, depth + 1);
+                }
+            }
+        }
+
+        function addRow(tbody, id, title, updated_time, depth, type) {
+            const tr = document.createElement('tr');
+            // ID column
+            const tdId = document.createElement('td');
+            tdId.textContent = id;
+            tdId.style.fontFamily = "monospace";
+            tr.appendChild(tdId);
+            // Title column (indentation, icon)
+            const tdTitle = document.createElement('td');
+            tdTitle.textContent = '·\u3000'.repeat(depth) + (type === "folder" ? '📁 ' : '📝 ') + title;
+            tr.appendChild(tdTitle);
+            // Updated time column
+            const tdTime = document.createElement('td');
+            tdTime.textContent = unixToDatetime(updated_time);
+            tr.appendChild(tdTime);
+            tbody.appendChild(tr);
+        }
+
+        function unixToDatetime(ms) {
+            if (!ms) return "";
+            const d = new Date(ms);
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}
+                    ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+        }
+
+        async function main() {
+            const server_url = document.getElementById('server_url').value;
+            window.server_url = server_url;
+            const tbody = document.querySelector('#treeTable tbody');
+            tbody.innerHTML = '';
+            const treeFolders = await getFoldersTree();
+            await renderFolderTree(tbody, treeFolders, 0);
+        }
+
+        main();
+    </script>
+</body>
+</html>

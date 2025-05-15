@@ -119,3 +119,6 @@ Solution 2: The host machine does not have a GUI, or the 9967 port is not availa
 3. On any safe computer with a GUI, access the following URL: <https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=e09fc0de-c958-424f-83a2-e56a721d331b&scope=files.readwrite+offline_access+sites.readwrite.all&redirect_uri=http%3a%2f%2flocalhost%3a9967&response_type=code&prompt=login>. *This step is equivalent to a piece of [Joplin source code](<https://github.com/laurent22/joplin/blob/d7a0d74c4da96cca27af07b3c908a7ca97227be7/packages/lib/onedrive-api.ts#L87>)*
 4. After completing the last step in the browser, you will be redirected to `http://localhost:9967/?code=<onedrive_auth_code>`(^1). At this point, it will be 404 not found. Let's attach a new terminal in the container (now there are two terminals in the container, one is the newly added `sh`, the other is `joplin sync` waiting for OneDrive login), copy the whole address(^1) from the browser, use `wget` in the container to access it once.
 5. Check the terminal running `joplin sync`, it should show that login was successful
+
+# Testing
+After configuration and synchronization, visit `content_view.html` to watch the tree structure of the notes.
