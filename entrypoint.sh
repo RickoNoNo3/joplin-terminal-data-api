@@ -35,9 +35,9 @@ echo "Starting Nginx..."
 nginx -g 'daemon on;'
 
 while true; do
-  joplin_total=$(joplin status | grep 'Total' | sed 's/^Total: [0-9]+\/\([0-9]+\)\s*$/\1/g')
+  joplin_total=$(joplin status | grep 'Total' | sed 's/^Total: [0-9]\{1,\}\/\([0-9]\{1,\}\)\s*$/\1/g')
   if [ -z "$joplin_total" ]; then
-    echo "Joplin is in blank state, synchronization is paused"
+    echo "Joplin is in a blank state, synchronization is paused"
   else
     echo "Starting Joplin sync..."
     joplin sync 2>&1 1>/dev/null
