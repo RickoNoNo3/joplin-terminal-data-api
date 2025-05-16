@@ -103,6 +103,8 @@ Generally, using `joplin e2ee enable -p <password>` can complete the automatic e
 For sync targets other than OneDrive, configure directly as follows:
 1. Configure the sync target in `joplin-config.json` according to the introduction in stdout of `joplin help config`
 2. Execute `joplin sync` inside the container, and follow the prompts (if exist) to complete the configuration.
+3. The synchronization interval seconds is set into `sync.interval` in `joplin-config.json`.
+4. While the first synchronization is completed and there is at least one item in the database (not blank), the synchronization will be performed automatically every `sync.interval` seconds.
 
 Below, we mainly discuss the synchronization for OneDrive.
 
