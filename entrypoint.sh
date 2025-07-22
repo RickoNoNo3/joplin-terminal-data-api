@@ -1,5 +1,7 @@
 #!/bin/sh
 echo "---------------------------"
+echo "Clearning aborted temp lock files..."
+rm /tmp/*
 echo "Running Joplin version: $JOPLIN_VERSION"
 if [ "$JOPLIN_VERSION" = "dynamic" ]; then
   echo "Checking for Joplin updates..."
