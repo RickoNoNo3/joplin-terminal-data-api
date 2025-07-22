@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "---------------------------"
-echo "Clearning aborted temp lock files..."
+echo "Cleaning aborted temp lock files..."
 rm -rf /tmp/* 2>&1
 echo "Running Joplin version: $JOPLIN_VERSION"
 if [ "$JOPLIN_VERSION" = "dynamic" ]; then
