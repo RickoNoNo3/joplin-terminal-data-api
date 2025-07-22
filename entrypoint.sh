@@ -42,7 +42,7 @@ while true; do
     echo "Starting Joplin sync..."
     joplin sync
   fi
-  sync_interval=$(cat /root/.config/joplin/settings.json | grep 'sync.interval' | sed 's/^.*"\([^"]*\)".*$/\1/g')
+  sync_interval=$(cat /root/.config/joplin/settings.json | grep 'sync.interval' | sed 's/^.*"\([^"]*\)".*:[^0-9]*\([0-9]*\)[^0-9]*$/\2/g')
   if [ -z "$sync_interval" ]; then
     sync_interval=600
   fi

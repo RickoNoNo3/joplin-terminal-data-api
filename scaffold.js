@@ -1,12 +1,12 @@
 const { execSync } = require('child_process');
 
-// tag format:
-//   - <JOPLIN_VERSION> for specific version
-//   - latest for dynamic auto-installation version
-//
 // arguments options:
 //   1. build=[<JOPLIN_VERSION>|latest/dynamic]
 //   2. publish=[<JOPLIN_VERSION>|latest/dynamic]
+//
+// tag format:
+//   - <JOPLIN_VERSION> for specific version
+//   - latest for dynamic auto-installation version
 //
 
 const repo = 'rickonono3/joplin-terminal-data-api';
