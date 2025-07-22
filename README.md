@@ -30,8 +30,15 @@ There are only one port(for synchronizing to OneDrive maybe two), and a config f
 | 9967         | ✗         | OneDrive OAuth Service               |
 | 41184        | ✗         | Joplin Data API                      |
 | 41185        | ✓         | Joplin Data API (AutoToken)          |
-| /root/joplin | ✓         | The folder stored Joplin config file |
+| /root/joplin | ✓         | The folder stored the Joplin config file |
 
+> A sample docker startup:
+> ```sh
+> docker run -d --name joplin-data-api -p 41185:41185 \
+>            -v /path_host/joplin:/root/joplin \
+>            --restart unless-stopped \
+>            rickonono3/joplin-terminal-data-api:latest
+> ```
 
 ## Configuration
 Mount a host folder to container's `/root/joplin`, and create a config file named `joplin-config.json` inside.
