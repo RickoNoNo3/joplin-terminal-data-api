@@ -2,12 +2,12 @@
 echo "Running Joplin version: $JOPLIN_VERSION"
 if [ "$JOPLIN_VERSION" = "dynamic" ]; then
   echo "Checking for Joplin updates..."
-  current=$(npm list -g joplin --depth=0 --parseable 2>/dev/null)
+  current=$(NPM_CONFIG_PREFIX=/app/joplin npm list -g joplin --depth=0 --parseable 2>/dev/null)
   latest=$(npm show joplin@latest version 2>/dev/null)
   echo "Current Joplin version: $current"
-  echo "Latest Joplin version: $latest\n"
+  echo "Latest Joplin version: $latest"
   if [ "$current" != "$latest" ]; then
-    echo "Installing joplin@$latest...\n"
+    echo "Installing joplin@$latest..."
     NPM_CONFIG_PREFIX=/app/joplin npm install --omit=dev -g joplin@$latest
     ln -sf /app/joplin/bin/joplin /usr/bin/joplin
   else
@@ -40,10 +40,13 @@ while true; do
     echo "Joplin is in a blank state, synchronization is paused"
   else
     echo "Starting Joplin sync..."
-    joplin sync 2>&1 1>/dev/null
+    joplin sync
   fi
   sync_interval=$(cat /root/.config/joplin/settings.json | grep 'sync.interval' | sed 's/^.*"\([^"]*\)".*$/\1/g')
   if [ -z "$sync_interval" ]; then
+    sync_interval=600
+  fi
+  if [ "$sync_interval" -lt 300 ]; then
     sync_interval=300
   fi
   sleep $sync_interval
