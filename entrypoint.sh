@@ -3,7 +3,7 @@ echo "---------------------------"
 echo "Running Joplin version: $JOPLIN_VERSION"
 if [ "$JOPLIN_VERSION" = "dynamic" ]; then
   echo "Checking for Joplin updates..."
-  current=$(NPM_CONFIG_PREFIX=/app/joplin npm list -g joplin --depth=0 --parseable 2>/dev/null)
+  current=$(NPM_CONFIG_PREFIX=/app/joplin npm list -g joplin --depth=0 2>/dev/null | grep -E 'joplin@[0-9.]*\s*$' | tail -n 1 | sed 's/^.*joplin@\([0-9.]*\).*$/\1/')
   latest=$(npm show joplin@latest version 2>/dev/null)
   echo "Current Joplin version: $current"
   echo "Latest Joplin version: $latest"
