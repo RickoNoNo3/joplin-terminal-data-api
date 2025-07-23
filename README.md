@@ -43,7 +43,7 @@ There are only one port(for synchronizing to OneDrive maybe two), and a config f
 ## Configuration
 Mount a host folder to container's `/root/joplin`, and create a config file named `joplin-config.json` inside.
 
-From [the doc](https://joplinapp.org/help/apps/terminal/) (or by executing command `joplin help config` in a container terminal)，we can find all the configuration keys of Joplin. And，we can get an example of the config file:
+From [the doc](https://joplinapp.org/help/apps/terminal/) (or by executing command `joplin help config` in a container terminal)，we can find all the configuration keys of Joplin. Then we can get an example of the config file:
 
 ```json
 {
